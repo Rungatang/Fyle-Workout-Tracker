@@ -14,3 +14,13 @@ import { UserFormComponent } from '../components/user-form/user-form.component';
   ]
 })
 export class UserModule { }
+export interface Workout {
+  type: string;
+  minutes: number;
+}
+
+export interface User {
+  id: number;
+  name: string;
+  workouts: Workout[];
+}

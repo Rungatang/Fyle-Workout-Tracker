@@ -1,33 +1,17 @@
 import { Injectable } from '@angular/core';
-
-interface Workout {
-  type: string;
-  minutes: number;
-}
-
-interface User {
-  id: number;
-  name: string;
-  workouts: Workout[];
-}
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { User } from '../models/user.model'; 
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  private apiUrl = 'api/users'; 
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  getUsers(): User[] {
-    const data = localStorage.getItem('userData');
-    return data ? JSON.parse(data) : [];
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.apiUrl);
   }
-
-  addUser(user: User): void {
-    const users = this.getUsers();
-    users.push(user);
-    localStorage.setItem('userData', JSON.stringify(users));
-  }
-
-  // Other methods to manipulate users
 }

@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
+import { UserService } from './services/user.service';
 const routes: Routes = [
   { path: '', component: UserListComponent },
 ];
@@ -18,7 +19,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     CanvasJSAngularChartsModule
   ],
-
+  providers: [UserService],
   bootstrap: []
 })
 export class AppModule { }

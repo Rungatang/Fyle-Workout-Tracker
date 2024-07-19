@@ -28,7 +28,7 @@ export class UserListComponent implements OnInit {
   workoutTypeFilter: string = '';
   workoutTypes: string[] = ['Swimming', 'Yoga', 'Running', 'Cycling']; // Define workout types
   currentPage: number = 1;
-  itemsPerPage: number = 5; // Default items per page
+  itemsPerPage: number = 5; 
   totalPages: number = 1;
   itemsPerPageOptions: number[] = [5, 10, 15, 20]; // Options for items per page
   deleteMode: boolean = false;

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router'; // Import Router
+import { Router } from '@angular/router'; 
 
 interface Workout {
   type: string;
@@ -27,36 +27,37 @@ export class UserFormComponent {
 
   workoutTypes: string[] = ['Swimming', 'Yoga', 'Running', 'Cycling'];
 
-  constructor(private router: Router) {} // Inject Router
+  constructor(private router: Router) {} 
 
   addUser() {
     if (!this.user.name || !this.workoutType || this.workoutMinutes <= 0) {
-      return; // Or handle validation errors
+      return; 
     }
 
-    // Load existing users from localStorage
+    
     const existingData = localStorage.getItem('userData');
     const users = existingData ? JSON.parse(existingData) : [];
 
-    // Find user or create a new one
+    
     const userIndex = users.findIndex((u: User) => u.name === this.user.name);
     if (userIndex > -1) {
-      // User exists, add the new workout to this user
+      
       users[userIndex].workouts.push({ type: this.workoutType, minutes: this.workoutMinutes });
     } else {
-      // Create a new user
+      
       users.push({ name: this.user.name, workouts: [{ type: this.workoutType, minutes: this.workoutMinutes }] });
     }
+    this.router.navigate(['/user-list']);
 
-    // Save updated users to localStorage
+    
     localStorage.setItem('userData', JSON.stringify(users));
 
-    // Reset form
+    
     this.user = { name: '', workouts: [] };
     this.workoutType = '';
     this.workoutMinutes = 0;
 
-    // Navigate to the user-list page
+    
     this.router.navigate(['/user-list']);
   }
 }

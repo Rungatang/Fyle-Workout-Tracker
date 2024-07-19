@@ -1,61 +1,38 @@
 import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { UserService } from './user.service';
-
-interface Workout {
-  type: string;
-  minutes: number;
-}
-
-interface User {
-  id: number;
-  name: string;
-  workouts: Workout[];
-}
+import { User } from '../models/user.model';
 
 describe('UserService', () => {
   let service: UserService;
+  let httpMock: HttpTestingController;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(UserService);
+    TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule ],
+      providers: [ UserService ]
+    });
 
-    const mockUserData: User[] = [
-      { id: 1, name: 'John Doe', workouts: [{ type: 'Running', minutes: 30 }] },
-      { id: 2, name: 'Jane Doe', workouts: [{ type: 'Yoga', minutes: 45 }] },
-      { id: 3, name: 'Jim Beam', workouts: [{ type: 'Swimming', minutes: 60 }] }
+    service = TestBed.inject(UserService);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  it('should fetch users from the API', () => {
+    const mockUsers: User[] = [
+      { id: 1, name: 'John Doe', workouts: [] },
+      { id: 2, name: 'Jane Smith', workouts: [] }
     ];
-    localStorage.setItem('userData', JSON.stringify(mockUserData));
+
+    service.getUsers().subscribe(users => {
+      expect(users.length).toBe(2);
+      expect(users).toEqual(mockUsers);
+    });
+
+    const req = httpMock.expectOne('api/users'); 
+    req.flush(mockUsers); 
   });
 
   afterEach(() => {
-    localStorage.removeItem('userData');
+    httpMock.verify(); 
   });
-
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
-  it('should return user data from local storage', () => {
-    const expectedUsers: User[] = [
-      { id: 1, name: 'John Doe', workouts: [{ type: 'Running', minutes: 30 }] },
-      { id: 2, name: 'Jane Doe', workouts: [{ type: 'Yoga', minutes: 45 }] },
-      { id: 3, name: 'Jim Beam', workouts: [{ type: 'Swimming', minutes: 60 }] }
-    ];
-    expect(service.getUsers()).toEqual(expectedUsers);
-  });
-
-  it('should add a new user', () => {
-    const newUser: User = { id: 4, name: 'Alice Wonderland', workouts: [{ type: 'Gym', minutes: 50 }] };
-    service.addUser(newUser);
-
-    const expectedUsers: User[] = [
-      { id: 1, name: 'John Doe', workouts: [{ type: 'Running', minutes: 30 }] },
-      { id: 2, name: 'Jane Doe', workouts: [{ type: 'Yoga', minutes: 45 }] },
-      { id: 3, name: 'Jim Beam', workouts: [{ type: 'Swimming', minutes: 60 }] },
-      { id: 4, name: 'Alice Wonderland', workouts: [{ type: 'Gym', minutes: 50 }] }
-    ];
-    expect(service.getUsers()).toEqual(expectedUsers);
-  });
-
-  // Add more tests to cover other methods and scenarios
 });

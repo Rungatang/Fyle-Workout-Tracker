@@ -1,49 +1,55 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { FormsModule } from '@angular/forms';
 import { UserListComponent } from './user-list.component';
 import { UserService } from '../../services/user.service';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { User } from '../../models/user.model';
 
 describe('UserListComponent', () => {
   let component: UserListComponent;
   let fixture: ComponentFixture<UserListComponent>;
   let userService: UserService;
+  let httpMock: HttpTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CommonModule, FormsModule],
-      declarations: [UserListComponent],
-      providers: [UserService]
+      declarations: [ UserListComponent ],
+      imports: [ HttpClientTestingModule, FormsModule ],
+      providers: [ UserService ]
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(UserListComponent);
     component = fixture.componentInstance;
     userService = TestBed.inject(UserService);
-
-    const mockUserData: User[] = [
-      { id: 1, name: 'John Doe', workouts: [{ type: 'Running', minutes: 30 }] },
-      { id: 2, name: 'Jane Doe', workouts: [{ type: 'Yoga', minutes: 45 }] },
-      { id: 3, name: 'Jim Beam', workouts: [{ type: 'Swimming', minutes: 60 }] }
-    ];
-    localStorage.setItem('userData', JSON.stringify(mockUserData));
-
-    fixture.detectChanges();
-  });
-
-  afterEach(() => {
-    localStorage.removeItem('userData');
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load users on init', () => {
-    component.ngOnInit();
-    expect(component.users.length).toBe(3);
+  it('should fetch and display users', () => {
+    const mockUsers: User[] = [
+      { id: 1, name: 'John Doe', workouts: [] },
+      { id: 2, name: 'Jane Smith', workouts: [] }
+    ];
+
+   
+    fixture.detectChanges();
+
+    const req = httpMock.expectOne('api/users'); 
+    expect(req.request.method).toBe('GET');
+    req.flush(mockUsers);
+
+    fixture.detectChanges();
+
+   
+    expect(component.users).toEqual(mockUsers);
+    const userElements = fixture.nativeElement.querySelectorAll('tr');
+    expect(userElements.length).toBe(mockUsers.length + 1); 
   });
 
-  // Add more tests to cover other functionalities
+  afterEach(() => {
+    httpMock.verify();
+  });
 });
