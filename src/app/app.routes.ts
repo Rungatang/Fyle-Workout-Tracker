@@ -4,12 +4,12 @@ import { UserFormComponent } from './components/user-form/user-form.component';
 import { UserDetailsComponent } from './components/user-detail/user-detail.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/user-list', pathMatch: 'full' },
-  { path: 'user-list', component: UserListComponent },
   { path: 'user-form', component: UserFormComponent },
+  { path: '', redirectTo: '/user-form', pathMatch: 'full' },
+  { path: 'user-list', component: UserListComponent },
   { path: 'user-details/:name', component: UserDetailsComponent },
-  {path : '', redirectTo : 'home', pathMatch: 'full'},
-  {path: '**', redirectTo: 'home', pathMatch:'full'}
+  {path : '', redirectTo : 'user-form', pathMatch: 'full'},
+  {path: '**', redirectTo: 'user-form', pathMatch:'full'}
 
   ];
   
