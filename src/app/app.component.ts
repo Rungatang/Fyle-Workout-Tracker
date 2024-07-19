@@ -12,5 +12,5 @@ import { FooterComponent } from './layout/footer/footer.component';
  // Include necessary modules here
 })
 export class AppComponent {
-  title = 'My Angular App';
+  title = 'Workout';
 }

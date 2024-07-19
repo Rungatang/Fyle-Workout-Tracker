@@ -1,4 +1,13 @@
-<!-- wrapper -->
-<div class="wrapper min-h-screen flex flex-col">
-  <router-outlet></router-outlet>
+<div class="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-6">
+  <!-- Title Section -->
+  <div class="bg-transparent p-4 rounded-lg mx-auto max-w-md mb-2">
+    <h1 class="text-xl font-semibold text-center text-gray-800">
+      {{ title }}
+    </h1>
+  </div>
+  
+  <!-- User Form Section -->
+  <div class="wrapper min-h-screen flex-col">
+    <router-outlet></router-outlet>
+  </div>
 </div>

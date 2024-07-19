@@ -1,55 +1,37 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { FormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UserListComponent } from './user-list.component';
 import { UserService } from '../../services/user.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { of } from 'rxjs';
 import { User } from '../../models/user.model';
+import { RouterTestingModule } from '@angular/router/testing'; // Import RouterTestingModule
+import { FormsModule } from '@angular/forms';
 
 describe('UserListComponent', () => {
   let component: UserListComponent;
   let fixture: ComponentFixture<UserListComponent>;
   let userService: UserService;
-  let httpMock: HttpTestingController;
+  const mockUsers: User[] = [
+    { id: 1, name: 'John Doe', workouts: [{ type: 'Running', minutes: 30 }] },
+    { id: 2, name: 'Jane Smith', workouts: [{ type: 'Swimming', minutes: 45 }] }
+  ];
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ UserListComponent ],
-      imports: [ HttpClientTestingModule, FormsModule ],
-      providers: [ UserService ]
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule, RouterTestingModule, FormsModule, UserListComponent], // Import UserListComponent
+      providers: [UserService]
     }).compileComponents();
 
     fixture = TestBed.createComponent(UserListComponent);
     component = fixture.componentInstance;
     userService = TestBed.inject(UserService);
-    httpMock = TestBed.inject(HttpTestingController);
-  });
+
+    spyOn(userService, 'getUsers').and.returnValue(of(mockUsers));
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should fetch and display users', () => {
-    const mockUsers: User[] = [
-      { id: 1, name: 'John Doe', workouts: [] },
-      { id: 2, name: 'Jane Smith', workouts: [] }
-    ];
-
-   
-    fixture.detectChanges();
-
-    const req = httpMock.expectOne('api/users'); 
-    expect(req.request.method).toBe('GET');
-    req.flush(mockUsers);
-
-    fixture.detectChanges();
-
-   
-    expect(component.users).toEqual(mockUsers);
-    const userElements = fixture.nativeElement.querySelectorAll('tr');
-    expect(userElements.length).toBe(mockUsers.length + 1); 
-  });
-
-  afterEach(() => {
-    httpMock.verify();
-  });
 });

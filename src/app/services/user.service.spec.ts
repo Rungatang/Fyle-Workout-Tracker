@@ -9,8 +9,8 @@ describe('UserService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
-      providers: [ UserService ]
+      imports: [HttpClientTestingModule],
+      providers: [UserService]
     });
 
     service = TestBed.inject(UserService);
@@ -28,11 +28,12 @@ describe('UserService', () => {
       expect(users).toEqual(mockUsers);
     });
 
-    const req = httpMock.expectOne('api/users'); 
-    req.flush(mockUsers); 
+    const req = httpMock.expectOne('api/users');
+    expect(req.request.method).toBe('GET');
+    req.flush(mockUsers);
   });
 
   afterEach(() => {
-    httpMock.verify(); 
+    httpMock.verify();
   });
 });
