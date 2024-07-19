@@ -25,3 +25,17 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Code Coverage reports
+
+Chrome 126.0.0.0 (Windows 10): Executed 5 of 5 SUCCESS (0.159 secs / 0.146 secs)
+TOTAL: 5 SUCCESS
+
+=============================== Coverage summary ===============================
+Statements   : 47.61% ( 40/84 )
+Branches     : 17.39% ( 4/23 )
+Functions    : 31.81% ( 7/22 )
+Lines        : 47.43% ( 37/78 )
+================================================================================
+
+I wasn't able to get 100% coverage
