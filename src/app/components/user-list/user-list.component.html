@@ -1,8 +1,8 @@
 <div class="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-6">
   <div class="bg-white bg-opacity-75 p-6 rounded-lg shadow-md w-full max-w-4xl mx-auto">
     <div class="flex flex-col sm:flex-row sm:justify-between items-center mb-4">
-      <h2 class="text-2xl font-semibold text-gray-800 mb-4 sm:mb-0">User List</h2>
-      <button (click)="toggleDeleteMode()" class="bg-white text-red-700 p-2 rounded-lg hover:bg-gray-200 transition-colors">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4 sm:mb-0">User List</h2>
+      <button (click)="toggleDeleteMode()" class="bg-white font-semibold text-red-700 p-2 rounded-lg hover:bg-gray-300 transition-colors">
         {{ deleteMode ? 'Cancel Delete' : 'Delete User' }}
       </button>
     </div>
@@ -21,7 +21,7 @@
         <option value="">Select Workout Type</option>
         <option *ngFor="let type of workoutTypes" [value]="type">{{ type }}</option>
       </select>
-      <button (click)="search()" class="bg-white text-indigo-700 p-2 rounded-lg hover:bg-gray-200 transition-colors w-full sm:w-auto">
+      <button (click)="search()" class="bg-white font-semibold text-indigo-700 p-2 rounded-lg hover:bg-gray-400 transition-colors w-full sm:w-auto">
         Search
       </button>
     </div>
@@ -62,20 +62,18 @@
         </tr>
       </tbody>
     </table>
-
-
     
     <div class="flex flex-col items-center mt-4">
       <div class="flex flex-wrap justify-center mb-4">
-        <button (click)="previousPage()" [disabled]="currentPage === 1" class="bg-white text-indigo-700 p-2 rounded-lg hover:bg-gray-200 transition-colors">
+        <button (click)="previousPage()" [disabled]="currentPage === 1" class="bg-white text-indigo-700 p-2 rounded-lg hover:bg-gray-400 transition-colors">
           Previous
         </button>
         <button *ngFor="let page of [].constructor(totalPages); let i = index" (click)="goToPage(i + 1)"
-                class="bg-white text-indigo-700 p-2 rounded-lg hover:bg-gray-200 transition-colors mx-1"
-                [ngClass]="{ 'bg-indigo-500 text-white': currentPage === i + 1 }">
+                class="bg-white text-indigo-700 p-2 rounded-lg hover:bg-gray-400 transition-colors mx-1"
+                [ngClass]="{ 'bg-indigo-500 text-blue': currentPage === i + 1, 'text-gray-700': currentPage !== i + 1 }">
           {{ i + 1 }}
         </button>
-        <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="bg-white text-indigo-700 p-2 rounded-lg hover:bg-gray-200 transition-colors">
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="bg-white text-indigo-700 p-2 rounded-lg hover:bg-gray-400 transition-colors">
           Next
         </button>
       </div>
