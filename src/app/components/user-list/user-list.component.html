@@ -1,0 +1,84 @@
+<div class="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-6">
+  <div class="bg-white bg-opacity-75 p-6 rounded-lg shadow-md w-full max-w-4xl mx-auto">
+    <div class="flex flex-col sm:flex-row sm:justify-between items-center mb-4">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-4 sm:mb-0">User List</h2>
+      <button (click)="toggleDeleteMode()" class="bg-white text-red-700 p-2 rounded-lg hover:bg-gray-200 transition-colors">
+        {{ deleteMode ? 'Cancel Delete' : 'Delete User' }}
+      </button>
+    </div>
+    
+    <div class="flex flex-col sm:flex-row mb-4">
+      <input
+        type="text"
+        [(ngModel)]="searchText"
+        placeholder="Search by name"
+        class="border border-gray-300 rounded-lg p-2 w-full mb-2 sm:mb-0 sm:mr-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      />
+      <select
+        [(ngModel)]="workoutTypeFilter"
+        class="border border-gray-300 rounded-lg p-2 w-full mb-2 sm:mb-0 sm:mr-2 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      >
+        <option value="">Select Workout Type</option>
+        <option *ngFor="let type of workoutTypes" [value]="type">{{ type }}</option>
+      </select>
+      <button (click)="search()" class="bg-white text-indigo-700 p-2 rounded-lg hover:bg-gray-200 transition-colors w-full sm:w-auto">
+        Search
+      </button>
+    </div>
+
+    <div class="flex items-center mb-4">
+      <label for="itemsPerPage" class="text-gray-700 text-sm font-medium mr-2">Items per page:</label>
+      <select
+        id="itemsPerPage"
+        [(ngModel)]="itemsPerPage"
+        (change)="updatePagination()"
+        class="border border-gray-300 rounded-lg p-2 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      >
+        <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{ option }}</option>
+      </select>
+    </div>
+    
+    <table class="w-full table-auto bg-white bg-opacity-75 rounded-lg shadow-md">
+      <thead>
+        <tr>
+          <th class="px-4 py-2">Name</th>
+          <th class="px-4 py-2">Workout Type</th>
+          <th class="px-4 py-2">Total Duration</th>
+          <th class="px-4 py-2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of paginatedUsers; let i = index">
+          <td class="border px-4 py-2">
+            <a [routerLink]="['/user-details', user.name]" class="text-indigo-600 hover:underline">{{ user.name }}</a>
+          </td>          
+          <td class="border px-4 py-2">{{ getWorkoutTypes(user) }}</td>
+          <td class="border px-4 py-2">{{ getTotalDuration(user) }} mins</td>
+          <td class="border px-4 py-2">
+            <button *ngIf="deleteMode" (click)="deleteUser(user)" class="bg-white text-red-700 p-2 rounded-lg hover:bg-gray-200 transition-colors">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    
+    <div class="flex flex-col items-center mt-4">
+      <div class="flex flex-wrap justify-center mb-4">
+        <button (click)="previousPage()" [disabled]="currentPage === 1" class="bg-white text-indigo-700 p-2 rounded-lg hover:bg-gray-200 transition-colors">
+          Previous
+        </button>
+        <button *ngFor="let page of [].constructor(totalPages); let i = index" (click)="goToPage(i + 1)"
+                class="bg-white text-indigo-700 p-2 rounded-lg hover:bg-gray-200 transition-colors mx-1"
+                [ngClass]="{ 'bg-indigo-500 text-white': currentPage === i + 1 }">
+          {{ i + 1 }}
+        </button>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="bg-white text-indigo-700 p-2 rounded-lg hover:bg-gray-200 transition-colors">
+          Next
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

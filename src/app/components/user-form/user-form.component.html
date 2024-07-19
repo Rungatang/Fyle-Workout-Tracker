@@ -1,0 +1,56 @@
+<div class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-6">
+  <form (ngSubmit)="addUser()" class="bg-white bg-opacity-55 backdrop-blur-xl  p-6 rounded-lg shadow-md w-full max-w-lg">
+    <h2 class="text-2xl font-semibold mb-4 text-center text-gray-800">Add New Workout</h2>
+    
+    <!-- User Name Input -->
+    <div class="mb-4">
+      <label for="name" class="block text-gray-700 text-sm font-medium mb-1">User Name</label>
+      <input
+        id="name"
+        type="text"
+        [(ngModel)]="user.name"
+        name="name"
+        placeholder="Enter user name"
+        required
+        class="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+    
+    <!-- Workout Type Select -->
+    <div class="mb-4">
+      <label for="type" class="block text-gray-700 text-sm font-medium mb-1">Workout Type</label>
+      <select
+        id="type"
+        [(ngModel)]="workoutType"
+        name="type"
+        required
+        class="border border-gray-300 rounded-lg p-3 w-full bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        <option value="" disabled selected>Select Workout Type</option>
+        <option *ngFor="let type of workoutTypes" [value]="type">{{ type }}</option>
+      </select>
+    </div>
+    
+    <!-- Minutes Input -->
+    <div class="mb-4">
+      <label for="minutes" class="block text-gray-700 text-sm font-medium mb-1">Minutes</label>
+      <input
+        id="minutes"
+        type="number"
+        [(ngModel)]="workoutMinutes"
+        name="minutes"
+        placeholder="Enter minutes"
+        required
+        class="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+    
+    <!-- Submit Button -->
+    <button
+      type="submit"
+      class="w-full bg-blue-500 hover:bg-gradient-to-r from-indigo-500 via-pink-500 via-purple-500 via-pink-500 to-indigo-500 text-white p-3 rounded-lg hover:bg-blue-600 transition-colors"
+    >
+      Add Workout
+    </button>
+  </form>
+</div>
